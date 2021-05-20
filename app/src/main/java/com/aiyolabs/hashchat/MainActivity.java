@@ -2,6 +2,7 @@ package com.aiyolabs.hashchat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -44,12 +45,15 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         }
         try{
-            if(initialSleep)
+            SharedPreferences sharedPreferences=getSharedPreferences("MY",Context.MODE_PRIVATE);
+            Boolean status=sharedPreferences.getBoolean("status",true);
+            if(status)
             {
-               initialSleep=false;
+                SharedPreferences sharedPreferences2=getSharedPreferences("MY",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor=sharedPreferences2.edit();
+                editor.putBoolean("status",false).commit();
                 Thread.sleep(4000);
             }
-
             getsms();
 
         }catch (Exception e)
